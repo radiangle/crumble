@@ -59,8 +59,8 @@ class AudioCaptureManager: ObservableObject {
         startTime = Date()
         isRecording = true
         durationTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-            guard let self, let start = self.startTime else { return }
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
+                guard let self, let start = self.startTime else { return }
                 self.recordingDuration = Date().timeIntervalSince(start)
             }
         }

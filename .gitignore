@@ -6,3 +6,5 @@
 xcuserdata/
 *.xcworkspace/xcuserdata/
 DerivedData/
+*.app/
+/tmp/crumble_debug*.txt

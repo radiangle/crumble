@@ -9,7 +9,16 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "Crumble",
-            path: "Sources/Crumble"
+            path: "Sources/Crumble",
+            exclude: ["Info.plist"],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-Xlinker", "-sectcreate",
+                    "-Xlinker", "__TEXT",
+                    "-Xlinker", "__info_plist",
+                    "-Xlinker", "Sources/Crumble/Info.plist"
+                ])
+            ]
         )
     ]
 )

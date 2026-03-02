@@ -1,8 +1,10 @@
 import SwiftUI
+import AppKit
 
 struct MenubarView: View {
     @EnvironmentObject var appState: AppState
-    @Environment(\.openWindow) var openWindow
+    let openSettings: () -> Void
+    let openMeetings: () -> Void
 
     var body: some View {
         VStack(spacing: 12) {
@@ -14,7 +16,7 @@ struct MenubarView: View {
                     .font(.headline)
                 Spacer()
                 Button {
-                    openWindow(id: "settings")
+                    openSettings()
                 } label: {
                     Image(systemName: "gear")
                 }
@@ -52,7 +54,7 @@ struct MenubarView: View {
 
                     ForEach(appState.meetings.prefix(3)) { meeting in
                         Button {
-                            openWindow(id: "meetings")
+                            openMeetings()
                         } label: {
                             HStack {
                                 VStack(alignment: .leading, spacing: 1) {
@@ -80,7 +82,7 @@ struct MenubarView: View {
 
             HStack {
                 Button("All Meetings") {
-                    openWindow(id: "meetings")
+                    openMeetings()
                 }
                 .buttonStyle(.plain)
                 .font(.caption)

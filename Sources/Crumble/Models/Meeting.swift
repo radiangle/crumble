@@ -1,6 +1,6 @@
 import Foundation
 
-struct Meeting: Identifiable, Codable {
+struct Meeting: Identifiable, Codable, Hashable {
     var id: UUID
     var title: String
     var date: Date

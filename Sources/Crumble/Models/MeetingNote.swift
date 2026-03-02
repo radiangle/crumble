@@ -1,6 +1,6 @@
 import Foundation
 
-struct MeetingNote: Codable {
+struct MeetingNote: Codable, Hashable {
     var summary: String
     var actionItems: [String]
     var keyPoints: [String]
