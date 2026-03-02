@@ -1,8 +1,8 @@
 import Foundation
 
 struct NoteGenerationService {
-    private let endpoint = URL(string: "https://api.anthropic.com/v1/messages")!
-    private let model = "claude-sonnet-4-6"
+    private let endpoint = URL(string: "https://api.moonshot.ai/anthropic/v1/messages")!
+    private let model = "kimi-k2-0905-preview"
 
     func generateNotes(transcript: String, apiKey: String) async throws -> MeetingNote {
         var request = URLRequest(url: endpoint)
@@ -47,12 +47,11 @@ struct NoteGenerationService {
             throw NoteGenerationError.apiError(httpResponse.statusCode, body)
         }
 
-        let anthropicResponse = try JSONDecoder().decode(AnthropicResponse.self, from: data)
-        guard let text = anthropicResponse.content.first?.text else {
+        let kimiResponse = try JSONDecoder().decode(KimiResponse.self, from: data)
+        guard let text = kimiResponse.content.first?.text else {
             throw NoteGenerationError.emptyResponse
         }
 
-        // Extract JSON from the response text
         let jsonText = extractJSON(from: text)
         guard let jsonData = jsonText.data(using: .utf8) else {
             throw NoteGenerationError.parseError("Could not convert response to data")
@@ -62,7 +61,6 @@ struct NoteGenerationService {
     }
 
     private func extractJSON(from text: String) -> String {
-        // Handle markdown code blocks
         if let start = text.range(of: "```json\n"),
            let end = text.range(of: "\n```", range: start.upperBound..<text.endIndex) {
             return String(text[start.upperBound..<end.lowerBound])
@@ -71,7 +69,6 @@ struct NoteGenerationService {
            let end = text.range(of: "\n```", range: start.upperBound..<text.endIndex) {
             return String(text[start.upperBound..<end.lowerBound])
         }
-        // Find raw JSON braces
         if let start = text.firstIndex(of: "{"),
            let end = text.lastIndex(of: "}") {
             return String(text[start...end])
@@ -80,7 +77,7 @@ struct NoteGenerationService {
     }
 }
 
-private struct AnthropicResponse: Codable {
+private struct KimiResponse: Codable {
     let content: [ContentBlock]
 
     struct ContentBlock: Codable {
@@ -98,13 +95,13 @@ enum NoteGenerationError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidResponse:
-            return "Invalid response from Claude API."
+            return "Invalid response from Kimi API."
         case .apiError(let code, let message):
-            return "Claude API error \(code): \(message)"
+            return "Kimi API error \(code): \(message)"
         case .emptyResponse:
-            return "Claude returned an empty response."
+            return "Kimi returned an empty response."
         case .parseError(let detail):
-            return "Failed to parse Claude response: \(detail)"
+            return "Failed to parse Kimi response: \(detail)"
         }
     }
 }

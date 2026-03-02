@@ -40,17 +40,17 @@ class AppState: ObservableObject {
 
         do {
             let openAIKey = (try? KeychainService.load(key: "openai")) ?? ""
-            let anthropicKey = (try? KeychainService.load(key: "anthropic")) ?? ""
+            let kimiKey = (try? KeychainService.load(key: "kimi")) ?? ""
 
             guard !openAIKey.isEmpty else {
                 throw AppError.missingAPIKey("OpenAI API key not set. Please add it in Settings.")
             }
-            guard !anthropicKey.isEmpty else {
-                throw AppError.missingAPIKey("Anthropic API key not set. Please add it in Settings.")
+            guard !kimiKey.isEmpty else {
+                throw AppError.missingAPIKey("Kimi API key not set. Please add it in Settings.")
             }
 
             let transcript = try await transcriptionService.transcribe(audioURL: result.url, apiKey: openAIKey)
-            let notes = try await noteService.generateNotes(transcript: transcript, apiKey: anthropicKey)
+            let notes = try await noteService.generateNotes(transcript: transcript, apiKey: kimiKey)
 
             var meeting = currentMeeting ?? Meeting(title: formattedMeetingTitle())
             meeting.transcript = transcript

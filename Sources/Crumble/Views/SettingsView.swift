@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var openAIKey: String = ""
-    @State private var anthropicKey: String = ""
+    @State private var kimiKey: String = ""
     @State private var saveStatus: String = ""
 
     var body: some View {
@@ -12,9 +12,9 @@ struct SettingsView: View {
                     .textFieldStyle(.roundedBorder)
                     .help("Used for Whisper transcription")
 
-                SecureField("Anthropic API Key", text: $anthropicKey)
+                SecureField("Kimi API Key", text: $kimiKey)
                     .textFieldStyle(.roundedBorder)
-                    .help("Used for Claude note generation")
+                    .help("Used for Kimi note generation (api.moonshot.ai)")
             }
 
             if !saveStatus.isEmpty {
@@ -36,13 +36,13 @@ struct SettingsView: View {
 
     private func loadKeys() {
         openAIKey = (try? KeychainService.load(key: "openai")) ?? ""
-        anthropicKey = (try? KeychainService.load(key: "anthropic")) ?? ""
+        kimiKey = (try? KeychainService.load(key: "kimi")) ?? ""
     }
 
     private func saveKeys() {
         do {
             try KeychainService.save(key: "openai", value: openAIKey)
-            try KeychainService.save(key: "anthropic", value: anthropicKey)
+            try KeychainService.save(key: "kimi", value: kimiKey)
             saveStatus = "Keys saved successfully."
         } catch {
             saveStatus = "Error: \(error.localizedDescription)"
