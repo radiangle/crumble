@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Crumble reads your calendar to notify you before meetings start.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Crumble records microphone audio for meeting transcription.</string>
     <key>NSScreenCaptureUsageDescription</key>

@@ -6,6 +6,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindow: NSWindow?
     var settingsWindow: NSWindow?
     var appState: AppState?
+    private var meetingMonitor: MeetingMonitor?
     private var iconTimer: Timer?
     private var iconPhase = 0
 
@@ -14,6 +15,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let state = AppState()
         appState = state
+
+        // Start meeting monitor (calendar + app detection)
+        let monitor = MeetingMonitor()
+        monitor.start()
+        meetingMonitor = monitor
 
         // Observe recording state for icon animation
         NotificationCenter.default.addObserver(

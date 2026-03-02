@@ -48,7 +48,7 @@ struct MeetingEditorView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    // MARK: - Notes view (gray AI text)
+    // MARK: - Notes view (Granola-style: gray AI text)
 
     private func notesView(_ notes: MeetingNote) -> some View {
         VStack(alignment: .leading, spacing: 24) {
